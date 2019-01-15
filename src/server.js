@@ -1,5 +1,7 @@
 const app = require('./app');
 const http = require('http');
+const express = require('express');
+const path = require('path');
 
 const port = normalizePort(process.env.PORT || '5000');
 app.set('port', port);
@@ -17,6 +19,14 @@ function normalizePort(val) {
         return port;
     }
     return false;
+}
+
+if(process.env.NODE_ENV === 'production') {
+    app.use(express.static(path.join(__dirname, '../client/build')));
+
+    app.get('*', function(req, res) {
+        res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
+    });
 }
 
 server.on('listening', () => {
