@@ -1,7 +1,8 @@
 require('dotenv').config();
+const bodyParser = require('body-parser');
 
 module.exports = {
-    init() {
-        
+    init(app) {
+        app.use(bodyParser.urlencoded({ extended: true }));
     }
 }
