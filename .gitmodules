@@ -1,0 +1,3 @@
+[submodule "grocery-react-client"]
+	path = grocery-react-client
+	url = git@github.com:brandonkimmmm/grocery-react-client.git
