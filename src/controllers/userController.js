@@ -9,17 +9,29 @@ module.exports = {
             let newUser = {
                 email: req.body.email,
                 username: req.body.username,
-                password: req.body.password,
+                password: req.body.password
             }
             userQueries.createUser(newUser, (err, user) => {
                 if(err) {
+                    console.log(req.isAuthenticated());
                     res.send('Error: ' + err.errors[0].message);
                 } else {
                     passport.authenticate('local')(req, res, () => {
+                        console.log(req.isAuthenticated());
                         res.send('Account Created!');
                     });
                 }
             });
         }
+    },
+
+    signin(req, res, next) {
+        passport.authenticate('local')(req, res, function() {
+            if(!req.user) {
+                res.send('Error: wrong credentials');
+            } else {
+                res.send('Successfully signed in!');
+            }
+        })
     }
 }
