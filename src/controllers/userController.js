@@ -33,5 +33,19 @@ module.exports = {
                 res.send('Successfully signed in!');
             }
         })
+    },
+
+    isAuth(req, res, next) {
+        if(!req.isAuthenticated()) {
+            res.send(false);
+        } else {
+            console.log(req.user.email);
+            res.send(req.user);
+        }
+    },
+
+    signout(req, res, next) {
+        req.logout();
+        res.send('Successfully signed out');
     }
 }
