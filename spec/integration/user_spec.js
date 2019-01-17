@@ -1,6 +1,6 @@
 const request = require('request');
 const server = require('../../src/server');
-const base = 'http://localhost:5000/users/';
+const base = 'http://localhost:5000/api/users';
 const User = require('../../src/db/models').User;
 const sequelize = require('../../src/db/models/index').sequelize;
 
