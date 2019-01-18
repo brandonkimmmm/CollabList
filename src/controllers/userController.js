@@ -3,8 +3,12 @@ const passport = require('passport');
 
 module.exports = {
     create(req, res, next) {
+        let response = {
+            'user': undefined
+        };
         if(req.body.password !== req.body.passwordConfirmation) {
-            res.send('Error: password confirmation must match password');
+            response.message = 'Error: password confirmation must match password';
+            res.send(response);
         } else {
             let newUser = {
                 email: req.body.email,
@@ -13,12 +17,14 @@ module.exports = {
             }
             userQueries.createUser(newUser, (err, user) => {
                 if(err) {
-                    console.log(req.isAuthenticated());
-                    res.send('Error: ' + err.errors[0].message);
+                    response.message = 'Error: ' + err.errors[0].message;
+                    console.log(err.errors);
+                    res.send(response);
                 } else {
                     passport.authenticate('local')(req, res, () => {
-                        console.log(req.isAuthenticated());
-                        res.send('Account Created!');
+                        response.message = 'Account Created!';
+                        response.user = req.user;
+                        res.send(response);
                     });
                 }
             });
