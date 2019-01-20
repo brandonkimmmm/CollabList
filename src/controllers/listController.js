@@ -3,7 +3,7 @@ const listQueries = require('../db/queries.lists.js');
 module.exports = {
     create(req, res, next) {
         let response = {
-            list: undefined
+            'list': undefined
         }
         if(!req.body.userId) {
             response.message = 'Error: must be logged in'
@@ -28,15 +28,15 @@ module.exports = {
 
     show(req, res, next) {
         let response = {
-            list: undefined
+            'list': undefined
         }
         listQueries.show(req.params.listId, (err, list) => {
             if(err) {
-                response.message = 'Error: ';
+                response.message = 'Error: List cannot be created';
                 res.send(response);
             } else {
                 response.list = list;
-                res.send(list);
+                res.send(response);
             }
         })
     }

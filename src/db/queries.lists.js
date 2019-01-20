@@ -23,7 +23,7 @@ module.exports = {
             include: [User]
         })
         .then((list) => {
-            callback(null, list);
+            callback(null, list[0]);
         })
         .catch((err) => {
             callback(err);
