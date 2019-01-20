@@ -13,5 +13,20 @@ module.exports = {
         .catch((err) => {
             callback(err);
         })
+    },
+
+    show(listId, callback) {
+        return List.findAll({
+            where: {
+                id: listId,
+            },
+            include: [User]
+        })
+        .then((list) => {
+            callback(null, list);
+        })
+        .catch((err) => {
+            callback(err);
+        });
     }
 }

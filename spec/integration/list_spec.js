@@ -12,7 +12,7 @@ describe('routes : users', () => {
         .then(() => {
             User.create({
                 email: 'user@example.com',
-                username: 'user',
+                username: 'sampleUser',
                 password: 'password'
             })
             .then((user) => {
@@ -81,6 +81,32 @@ describe('routes : users', () => {
                     });
                 }
             );
+        });
+    });
+
+    describe('GET /api/lists/:listId', () => {
+        beforeEach((done) => {
+            this.list;
+            List.create({
+                name: 'listName',
+                userId: this.user.id
+            })
+            .then((list) => {
+                this.list = list;
+                done();
+            })
+            .catch((err) => {
+                console.log(err);
+                done();
+            });
+        });
+
+        it('should return name, createdAt, updatedAt, and eagerload user', (done) => {
+            request.get(`${base}${this.list.id}`, (err, res, body) => {
+                expect(res.body).toContain('listName');
+                expect(res.body).toContain(this.user.username);
+                done();
+            });
         });
     });
 });

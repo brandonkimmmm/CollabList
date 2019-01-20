@@ -24,5 +24,20 @@ module.exports = {
                 }
             });
         }
+    },
+
+    show(req, res, next) {
+        let response = {
+            list: undefined
+        }
+        listQueries.show(req.params.listId, (err, list) => {
+            if(err) {
+                response.message = 'Error: ';
+                res.send(response);
+            } else {
+                response.list = list;
+                res.send(list);
+            }
+        })
     }
 }
