@@ -116,7 +116,7 @@ describe('routes : users', () => {
                     }
                 },
                 (err, res, body) => {
-                    expect(res.body).toBe('Successfully signed in!');
+                    expect(res.body).toContain('Successfully signed in!');
                     done();
                 }
             );
@@ -132,7 +132,7 @@ describe('routes : users', () => {
                     }
                 },
                 (err, res, body) => {
-                    expect(res.body).toBe('Unauthorized');
+                    expect(res.body).toContain('Error: wrong credentials');
                     done();
                 }
             );
