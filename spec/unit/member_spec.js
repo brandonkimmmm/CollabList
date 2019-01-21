@@ -50,14 +50,13 @@ describe('Member model', () => {
             .then((user) => {
                 Member.create({
                     userId: user.id,
-                    listId: this.list.id,
-                    canEdit: false
+                    listId: this.list.id
                 })
                 .then((member) => {
                     expect(member).not.toBeNull();
                     expect(member.userId).toBe(user.id);
                     expect(member.listId).toBe(this.list.id);
-                    expect(member.canEdit).toBe(false);
+                    expect(member.canEdit).toBe(true);
                     done();
                 })
                 .catch((err) => {

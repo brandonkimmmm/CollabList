@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     canEdit: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
-      defaultValue: false
+      defaultValue: true
     }
   }, {});
   Member.associate = function(models) {
