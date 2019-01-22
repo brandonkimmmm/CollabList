@@ -4,6 +4,7 @@ const sequelize = require('../../src/db/models/index').sequelize;
 const base = 'http://localhost:5000/api/lists/';
 const List = require('../../src/db/models').List;
 const User = require('../../src/db/models').User;
+const Member = require('../../src/db/models').Member;
 
 describe('routes : users', () => {
     beforeEach((done) => {
@@ -45,12 +46,18 @@ describe('routes : users', () => {
                     List.findOne({
                         where: {
                             userId: this.user.id
-                        }
+                        },
+                        include: [{
+                            model: Member,
+                            as: 'members',
+                            include: [User]
+                        }]
                     })
                     .then((list) => {
                         expect(list).not.toBeNull();
                         expect(list.id).toBe(1);
                         expect(list.userId).toBe(this.user.id);
+                        expect(list.members[0].User.id).toBe(this.user.id);
                         done();
                     })
                     .catch((err) => {

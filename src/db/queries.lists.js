@@ -1,5 +1,6 @@
 const User = require('./models').User;
 const List = require('./models').List;
+const Member = require('./models').Member;
 
 module.exports = {
     createList(newList, callback) {
@@ -8,7 +9,16 @@ module.exports = {
             userId: newList.userId
         })
         .then((list) => {
-            callback(null, list);
+            Member.create({
+                userId: list.userId,
+                listId: list.id
+            })
+            .then((member) => {
+                callback(null, list);
+            })
+            .catch((err) => {
+                callback(err);
+            })
         })
         .catch((err) => {
             callback(err);
