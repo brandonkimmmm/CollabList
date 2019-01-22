@@ -2,6 +2,7 @@ const app = require('./app');
 const http = require('http');
 const express = require('express');
 const path = require('path');
+const io = require('socket.io')(http);
 
 const port = normalizePort(process.env.PORT || '5000');
 app.set('port', port);
@@ -28,6 +29,10 @@ if(process.env.NODE_ENV === 'production') {
         res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
     });
 }
+
+io.on('connection', function(socket) {
+    console.log('hello from io');
+})
 
 server.on('listening', () => {
     console.log(`server is listening for requests on port ${server.address().port}`);
