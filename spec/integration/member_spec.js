@@ -163,6 +163,33 @@ describe('routes : members', () => {
                 }
             );
         });
+
+        it('should not create a new member if member already exists', (done) => {
+            let options = {
+                url: `${base}${this.list.id}/members/create`,
+                form: {
+                    username: this.user.username,
+                }
+            }
+            Member.create({
+                userId: this.user.id,
+                listId: this.list.id
+            })
+            .then((member) => {
+                let options = {
+                    url: `${base}${this.list.id}/members/create`,
+                    form: {
+                        username: this.user.username,
+                    }
+                }
+                request.post(options,
+                    (err, res, body) => {
+                        expect(body).toContain('User is already a member');
+                        done();
+                    }
+                );
+            })
+        })
     });
 
     describe('POST /api/lists/:listId/members/:id/destroy', () => {

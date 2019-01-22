@@ -28,12 +28,32 @@ module.exports = {
                         }
                         callback(err);
                     } else {
-                        Member.create({
-                            userId: user.id,
-                            listId: newMember.listId,
+                        Member.findOne({
+                            where: {
+                                listId: newMember.listId,
+                                userId: user.id
+                            }
                         })
                         .then((member) => {
-                            callback(null, member);
+                            if(!member) {
+                                Member.create({
+                                    userId: user.id,
+                                    listId: newMember.listId,
+                                })
+                                .then((member) => {
+                                    callback(null, member);
+                                })
+                                .catch((err) => {
+                                    callback(err);
+                                })
+                            } else {
+                                let err = {
+                                    errors: [
+                                        'User is already a member'
+                                    ]
+                                }
+                                callback(err);
+                            }
                         })
                         .catch((err) => {
                             callback(err);
