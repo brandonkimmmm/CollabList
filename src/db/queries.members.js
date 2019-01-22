@@ -31,7 +31,6 @@ module.exports = {
                         Member.create({
                             userId: user.id,
                             listId: newMember.listId,
-                            canEdit: newMember.canEdit
                         })
                         .then((member) => {
                             callback(null, member);

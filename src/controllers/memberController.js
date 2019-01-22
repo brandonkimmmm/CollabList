@@ -8,7 +8,6 @@ module.exports = {
         let newMember = {
             username: req.body.username,
             listId: req.params.listId,
-            canEdit: req.body.canEdit
         }
         memberQueries.addMember(newMember, (err, member) => {
             if(err || member == null) {
@@ -16,7 +15,7 @@ module.exports = {
                 res.send(response);
             } else {
                 response.member = member;
-                response.message = 'List successfully created';
+                response.message = 'Member successfully added';
                 res.send(response);
             }
         })

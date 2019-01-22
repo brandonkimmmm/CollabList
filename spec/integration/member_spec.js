@@ -84,8 +84,7 @@ describe('routes : members', () => {
             let options = {
                 url: `${base}${this.list.id}/members/create`,
                 form: {
-                    username: this.user.username,
-                    canEdit: true
+                    username: this.user.username
                 }
             }
             request.post(options,
@@ -116,7 +115,6 @@ describe('routes : members', () => {
                 url: `${base}${this.list.id}/members/create`,
                 form: {
                     username: 'no user',
-                    canEdit: true
                 }
             }
             request.post(options,
@@ -144,7 +142,6 @@ describe('routes : members', () => {
                 url: `${base}2/members/create`,
                 form: {
                     username: this.user.username,
-                    canEdit: true
                 }
             }
             request.post(options,
