@@ -30,7 +30,11 @@ module.exports = {
             where: {
                 id: listId,
             },
-            include: [User]
+            include: [User, {
+                model: Member,
+                as: 'members',
+                include: [User]
+            }]
         })
         .then((list) => {
             callback(null, list[0]);
