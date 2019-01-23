@@ -34,16 +34,6 @@ module.exports = {
         let response = {
             'user': undefined
         }
-        // passport.authenticate('local')(req, res, function() {
-        //     if(!req.user) {
-        //         response.message = 'Error: wrong credentials';
-        //         return res.send(response);
-        //     } else {
-        //         response.message = 'Successfully signed in!';
-        //         response.user = req.user;
-        //         res.send(response);
-        //     }
-        // })
 
         passport.authenticate('local', function(err, user, info) {
             if (err || !user) {
@@ -77,5 +67,22 @@ module.exports = {
     signout(req, res, next) {
         req.logout();
         res.send('Successfully signed out');
+    },
+
+    showLists(req, res, next) {
+        let response = {
+            userLists: [],
+            userMemberships: []
+        }
+        userQueries.showLists(req.params.id, (err, userLists, userMemberships) => {
+            if(err) {
+                res.send(response);
+            } else {
+                response.userLists = userLists;
+                response.userMemberships = userMemberships;
+                console.log(userMemberships);
+                res.send(response);
+            }
+        })
     }
 }

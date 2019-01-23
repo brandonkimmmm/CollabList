@@ -2,6 +2,8 @@ const request = require('request');
 const server = require('../../src/server');
 const base = 'http://localhost:5000/api/users/';
 const User = require('../../src/db/models').User;
+const List = require('../../src/db/models').List;
+const Member = require('../../src/db/models').Member;
 const sequelize = require('../../src/db/models/index').sequelize;
 
 describe('routes : users', () => {
@@ -213,4 +215,55 @@ describe('routes : users', () => {
             );
         })
     })
+
+    describe('GET /api/users/:id/lists', () => {
+        beforeEach((done) => {
+            this.user;
+            this.list;
+            User.create({
+                email: 'hello@example.com',
+                username: 'hello',
+                password: 'password',
+                passwordConfirmation: 'password'
+            })
+            .then((user) => {
+                this.user = user;
+                List.create({
+                    name: 'listName',
+                    userId: this.user.id
+                })
+                .then((list) => {
+                    this.list = list;
+                    Member.create({
+                        userId: this.user.id,
+                        listId: this.list.id
+                    })
+                    .then((member) => {
+                        done();
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                        done();
+                    })
+                })
+                .catch((err) => {
+                    console.log(err);
+                    done();
+                });
+            })
+            .catch((err) => {
+                console.log(err);
+                done();
+            });
+        });
+
+        it('should return userLists and userMemberships', (done) => {
+            request.get(`${base}${this.user.id}/lists`, (err, res, body) => {
+                expect(res.body).toContain('userLists');
+                expect(res.body).toContain('userMemberships');
+                expect(res.body).toContain(this.list.name)
+                done();
+            });
+        });
+    });
 });
