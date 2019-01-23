@@ -26,18 +26,25 @@ module.exports = {
     },
 
     show(listId, callback) {
-        return List.findAll({
+        return List.findOne({
             where: {
-                id: listId,
+                id: listId
             },
-            include: [User, {
-                model: Member,
-                as: 'members',
-                include: [User]
-            }]
+            include: [User]
         })
         .then((list) => {
-            callback(null, list[0]);
+            Member.findAll({
+                where: {
+                    listId: listId
+                },
+                include: [User]
+            })
+            .then((members) => {
+                callback(null, list, members);
+            })
+            .catch((err) => {
+                callback(err);
+            })
         })
         .catch((err) => {
             callback(err);

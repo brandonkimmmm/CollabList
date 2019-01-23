@@ -28,14 +28,16 @@ module.exports = {
 
     show(req, res, next) {
         let response = {
-            'list': undefined
+            'list': undefined,
+            'members': undefined
         }
-        listQueries.show(req.params.listId, (err, list) => {
+        listQueries.show(req.params.listId, (err, list, member) => {
             if(err) {
                 response.message = 'Error: List cannot be created';
                 res.send(response);
             } else {
                 response.list = list;
+                response.members = member;
                 res.send(response);
             }
         })

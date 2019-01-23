@@ -41,7 +41,18 @@ module.exports = {
                                     listId: newMember.listId,
                                 })
                                 .then((member) => {
-                                    callback(null, member);
+                                    Member.findOne({
+                                        where: {
+                                            id: member.id
+                                        },
+                                        include: [User]
+                                    })
+                                    .then((foundMember) => {
+                                        callback(null, foundMember);
+                                    })
+                                    .catch((err) => {
+                                        callback(err);
+                                    })
                                 })
                                 .catch((err) => {
                                     callback(err);
