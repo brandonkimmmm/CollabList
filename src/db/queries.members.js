@@ -86,7 +86,18 @@ module.exports = {
         .then((member) => {
             member.destroy()
             .then((res) => {
-                callback(null);
+                Member.findAll({
+                    where: {
+                        listId: req.params.listId
+                    },
+                    include: [User]
+                })
+                .then((members) => {
+                    callback(null, members);
+                })
+                .catch((err) => {
+                    callback(err);
+                })
             })
             .catch((err) => {
                 callback(err);

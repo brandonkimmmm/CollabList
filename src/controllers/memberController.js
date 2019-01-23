@@ -1,4 +1,7 @@
 const memberQueries = require('../db/queries.members.js');
+const Member = require('../db/models').Member;
+const User = require('../db/models').User;
+
 
 module.exports = {
     new(req, res, next) {
@@ -22,11 +25,39 @@ module.exports = {
     },
 
     destroy(req, res, next) {
-        memberQueries.deleteMember(req, (err, collab) => {
+        let response = {
+            members: undefined
+        }
+        if(req.body.userId !== req.body.listUserId) {
+            Member.findAll({
+                where: {
+                    listId: req.params.listId
+                },
+                include: [User]
+            })
+            .then((members) => {
+                response.members = members;
+                response.message = 'Error: Must be owner of list to delete';
+                res.send(response);
+            })
+        }
+        memberQueries.deleteMember(req, (err, members) => {
             if(err) {
-                res.send('Error: Cannot delete member');
+                Member.findAll({
+                    where: {
+                        listId: req.params.listId
+                    },
+                    include: [User]
+                })
+                .then((members) => {
+                    response.members = members;
+                    response.message = 'Error: Cannot delete member'
+                    res.send(response);
+                })
             } else {
-                res.send('Member was deleted from list');
+                response.members = members;
+                response.message = 'Member was deleted from list';
+                res.send(response);
             }
         })
     }

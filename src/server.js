@@ -45,6 +45,10 @@ io.on('connection', (client) => {
         io.emit('MEMBER_ADDED', data);
     })
 
+    client.on('REMOVE_MEMBER', function(data) {
+        io.emit('MEMBER_REMOVED', data);
+    })
+
     client.on('disconnect', () => {
         console.log('user disconnect');
     })
