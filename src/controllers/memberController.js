@@ -1,6 +1,7 @@
 const memberQueries = require('../db/queries.members.js');
 const Member = require('../db/models').Member;
 const User = require('../db/models').User;
+const List = require('../db/models').List;
 
 
 module.exports = {
