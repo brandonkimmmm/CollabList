@@ -48,6 +48,10 @@ io.on('connection', (client) => {
         io.emit('LIST_ADDED', data);
     })
 
+    client.on('ADD_ITEM', function(data) {
+        console.log(data);
+    })
+
     client.on('disconnect', () => {
         console.log('user disconnect');
     })

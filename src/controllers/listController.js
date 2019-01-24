@@ -32,8 +32,8 @@ module.exports = {
             'members': undefined
         }
         listQueries.show(req.params.listId, (err, list, member) => {
-            if(err) {
-                response.message = 'Error: List cannot be created';
+            if(err || !list) {
+                response.message = 'Error: List cannot be found';
                 res.send(response);
             } else {
                 response.list = list;
