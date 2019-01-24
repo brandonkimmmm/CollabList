@@ -6,7 +6,7 @@ const List = require('../../src/db/models').List;
 const User = require('../../src/db/models').User;
 const Member = require('../../src/db/models').Member;
 
-describe('routes : users', () => {
+describe('routes : lists', () => {
     beforeEach((done) => {
         this.user;
         sequelize.sync({force: true})
