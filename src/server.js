@@ -35,11 +35,6 @@ server.on('listening', () => {
 })
 
 io.on('connection', (client) => {
-    console.log(client.id);
-
-    // client.on('SEND_MESSAGE', function(data){
-    //     io.emit('RECEIVE_MESSAGE', data);
-    // })
 
     client.on('ADD_MEMBER', function(data){
         io.emit('MEMBER_ADDED', data);
@@ -47,6 +42,10 @@ io.on('connection', (client) => {
 
     client.on('REMOVE_MEMBER', function(data) {
         io.emit('MEMBER_REMOVED', data);
+    })
+
+    client.on('ADD_LIST', function(data) {
+        io.emit('LIST_ADDED', data);
     })
 
     client.on('disconnect', () => {

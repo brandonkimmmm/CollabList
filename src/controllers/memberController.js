@@ -26,14 +26,18 @@ module.exports = {
 
     destroy(req, res, next) {
         let response = {
-            members: undefined
+            members: undefined,
+            listId: req.params.listId
         }
         if(req.body.userId !== req.body.listUserId) {
             Member.findAll({
                 where: {
                     listId: req.params.listId
                 },
-                include: [User]
+                include: [
+                    User,
+                    List
+                ]
             })
             .then((members) => {
                 response.members = members;
@@ -47,7 +51,10 @@ module.exports = {
                     where: {
                         listId: req.params.listId
                     },
-                    include: [User]
+                    include: [
+                        User,
+                        List
+                    ]
                 })
                 .then((members) => {
                     response.members = members;
