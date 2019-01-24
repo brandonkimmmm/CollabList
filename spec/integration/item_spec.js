@@ -145,29 +145,25 @@ describe('routes : items', () => {
         });
     });
 
-    // describe('GET /api/lists/:listId', () => {
-    //     beforeEach((done) => {
-    //         this.list;
-    //         List.create({
-    //             name: 'listName',
-    //             userId: this.user.id
-    //         })
-    //         .then((list) => {
-    //             this.list = list;
-    //             done();
-    //         })
-    //         .catch((err) => {
-    //             console.log(err);
-    //             done();
-    //         });
-    //     });
-
-    //     it('should return name, createdAt, updatedAt, and eagerload user', (done) => {
-    //         request.get(`${base}${this.list.id}`, (err, res, body) => {
-    //             expect(res.body).toContain('listName');
-    //             expect(res.body).toContain(this.user.username);
-    //             done();
-    //         });
-    //     });
-    // });
+    describe('GET /api/lists/:listId/items', () => {
+        it('should return items', (done) => {
+            Item.create({
+                name: 'carrots',
+                amount: 1,
+                listId: this.list.id
+            })
+            .then((item) => {
+                request.get(`${base}${this.list.id}/items`, (err, res, body) => {
+                    expect(body).toContain(item.name);
+                    expect(body).toContain('1');
+                    expect(body).toContain(item.listId);
+                    done();
+                });
+            })
+            .catch((err) => {
+                console.log(err);
+                done();
+            })
+        });
+    });
 });

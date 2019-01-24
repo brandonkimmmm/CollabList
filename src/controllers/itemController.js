@@ -21,5 +21,19 @@ module.exports = {
                 res.send(response);
             }
         })
+    },
+
+    showItems(req, res, next) {
+        let response = {
+            items: []
+        }
+        itemQueries.showItems(req.params.listId, (err, items) => {
+            if(err) {
+                res.send(response);
+            } else {
+                response.items = items;
+                res.send(response);
+            }
+        })
     }
 }

@@ -38,5 +38,19 @@ module.exports = {
         .catch((err) => {
             callback(err);
         })
+    },
+
+    showItems(listId, callback) {
+        return Item.findAll({
+            where: {
+                listId: listId
+            }
+        })
+        .then((items) => {
+            callback(null, items);
+        })
+        .catch((err) => {
+            callback(err);
+        })
     }
 }
