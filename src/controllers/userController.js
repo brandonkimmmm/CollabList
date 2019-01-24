@@ -80,7 +80,6 @@ module.exports = {
             } else {
                 response.userLists = userLists;
                 response.userMemberships = userMemberships;
-                console.log(userMemberships);
                 res.send(response);
             }
         })
