@@ -40,10 +40,10 @@ module.exports = {
         })
     },
 
-    showItems(listId, callback) {
+    showItems(id, callback) {
         return Item.findAll({
             where: {
-                listId: listId
+                listId: id
             }
         })
         .then((items) => {

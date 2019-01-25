@@ -49,7 +49,7 @@ io.on('connection', (client) => {
     })
 
     client.on('ADD_ITEM', function(data) {
-        console.log(data);
+        io.emit('ITEM_ADDED', data);
     })
 
     client.on('disconnect', () => {
