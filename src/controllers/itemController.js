@@ -51,6 +51,7 @@ module.exports = {
         }
         itemQueries.updateItem(updatedItem, (err, items) => {
             if(err || !items) {
+                console.log(updatedItem);
                 response.message = 'Error: ' + err.errors[0].message;
                 res.send(response);
             } else {

@@ -35,6 +35,7 @@ server.on('listening', () => {
 })
 
 io.on('connection', (client) => {
+    console.log('connected to socket.io')
 
     client.on('ADD_MEMBER', function(data){
         io.emit('MEMBER_ADDED', data);
