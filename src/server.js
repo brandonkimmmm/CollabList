@@ -52,6 +52,10 @@ io.on('connection', (client) => {
         io.emit('ITEM_ADDED', data);
     })
 
+    client.on('TOGGLE_ITEM', function(data) {
+        io.emit('ITEM_TOGGLED', data);
+    })
+
     client.on('disconnect', () => {
         console.log('user disconnect');
     })

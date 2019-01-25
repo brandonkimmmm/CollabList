@@ -22,13 +22,35 @@ module.exports = {
                 }
                 callback(err);
             } else {
-                Item.create({
-                    listId: newItem.listId,
-                    name: newItem.name,
-                    amount: newItem.amount
+                Item.findAll({
+                    where: {
+                        name: newItem.name,
+                        listId: newItem.listId
+                    }
                 })
-                .then((item) => {
-                    callback(null, item);
+                .then((items) => {
+                    if(items.length !== 0) {
+                        let err = {
+                            errors: [
+                                {
+                                    'message': 'Item already exists'
+                                }
+                            ]
+                        }
+                        callback(err);
+                    } else {
+                        Item.create({
+                            listId: newItem.listId,
+                            name: newItem.name,
+                            amount: newItem.amount
+                        })
+                        .then((item) => {
+                            callback(null, item);
+                        })
+                        .catch((err) => {
+                            callback(err);
+                        })
+                    }
                 })
                 .catch((err) => {
                     callback(err);
@@ -44,7 +66,10 @@ module.exports = {
         return Item.findAll({
             where: {
                 listId: id
-            }
+            },
+            order: [
+                ['id', 'ASC']
+            ]
         })
         .then((items) => {
             callback(null, items);
@@ -96,7 +121,10 @@ module.exports = {
                             Item.findAll({
                                 where: {
                                     listId: updatedItem.listId
-                                }
+                                },
+                                order: [
+                                    ['id', 'ASC']
+                                ]
                             })
                             .then((items) => {
                                 callback(null, items);
