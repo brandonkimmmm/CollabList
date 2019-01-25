@@ -52,5 +52,71 @@ module.exports = {
         .catch((err) => {
             callback(err);
         })
+    },
+
+    updateItem(updatedItem, callback) {
+        return Item.findById(updatedItem.id)
+        .then((item) => {
+            if(!item) {
+                let err = {
+                    errors: [
+                        {
+                            'message': 'cannot find item with that id'
+                        }
+                    ]
+                }
+                callback(err);
+            } else {
+                Member.findAll({
+                    where: {
+                        userId: updatedItem.userId,
+                        listId: updatedItem.listId
+                    }
+                })
+                .then((member) => {
+                    if(member.length === 0) {
+                        let err = {
+                            errors: [
+                                {
+                                    'message': 'must be a member to update an item'
+                                }
+                            ]
+                        }
+                        callback(err);
+                    } else {
+                        let newItem = {
+                            name: updatedItem.name,
+                            amount: updatedItem.amount,
+                            purchased: updatedItem.purchased
+                        }
+                        item.update(newItem, {
+                            fields: Object.keys(newItem)
+                        })
+                        .then(() => {
+                            Item.findAll({
+                                where: {
+                                    listId: updatedItem.listId
+                                }
+                            })
+                            .then((items) => {
+                                callback(null, items);
+                            })
+                            .catch((err) => {
+                                callback(err);
+                            })
+                        })
+                        .catch((err) => {
+                            callback(err);
+                        })
+                    }
+                })
+                .catch((err) => {
+                    callback(err);
+                })
+            }
+        })
+        .catch((err) => {
+            callback(err);
+        })
     }
 }

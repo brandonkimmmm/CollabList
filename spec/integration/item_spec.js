@@ -166,4 +166,92 @@ describe('routes : items', () => {
             })
         });
     });
+
+    describe('POST /api/lists/:listId/item/:id/update', () => {
+        beforeEach((done) => {
+            this.item;
+            Item.create({
+                name: 'carrots',
+                amount: 1,
+                listId: this.list.id
+            })
+            .then((item) => {
+                this.item = item;
+                done();
+            })
+            .catch((err) => {
+                console.log(err);
+                done();
+            })
+        })
+
+        it('should update an item with this.params.id with new values', (done) => {
+            let options = {
+                url: `${base}${this.list.id}/items/${this.item.id}/update`,
+                form: {
+                    userId: this.isMember.id,
+                    name: 'onions',
+                    amount: 3,
+                    listId: this.list.id,
+                    purchased: true
+                }
+            }
+
+            request.post(options,
+                (err, res, body) => {
+                    Item.findOne({
+                        where: {
+                            listId: this.list.id
+                        }
+                    })
+                    .then((item) => {
+                        expect(item).not.toBeNull();
+                        expect(item.id).toBe(1);
+                        expect(item.listId).toBe(this.list.id);
+                        expect(item.name).toBe('onions');
+                        expect(item.amount).toBe(3);
+                        expect(item.purchased).toBe(true);
+                        done();
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                        done();
+                    });
+                }
+            );
+        });
+
+        it('should not update an item if user is not member', (done) => {
+            let options = {
+                url: `${base}${this.list.id}/items/${this.item.id}/update`,
+                form: {
+                    userId: this.notMember.id,
+                    name: 'onions',
+                    amount: 3,
+                    listId: this.list.id,
+                    purchased: true
+                }
+            }
+
+            request.post(options,
+                (err, res, body) => {
+                    Item.findOne({
+                        where: {
+                            listId: this.list.id
+                        }
+                    })
+                    .then((item) => {
+                        expect(item.name).toBe(this.item.name);
+                        expect(item.amount).toBe(1);
+                        expect(body).toContain('Error: must be a member to update an item')
+                        done();
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                        done();
+                    });
+                }
+            );
+        });
+    });
 });
