@@ -3,7 +3,7 @@ const itemQueries = require('../db/queries.items.js');
 module.exports = {
     create(req, res, next) {
         let response = {
-            'item': undefined
+            item: undefined
         }
         let newItem = {
             userId: req.body.userId,
@@ -63,7 +63,7 @@ module.exports = {
 
     destroy(req, res, next) {
         let response = {
-            items: []
+            items: undefined
         }
         itemQueries.destroyItem(req, (err, items) => {
             if(err || !items) {
@@ -72,6 +72,7 @@ module.exports = {
             } else {
                 response.items = items;
                 response.message = 'Item was deleted from list';
+                response.listId = req.params.listId
                 res.send(response);
             }
         })
