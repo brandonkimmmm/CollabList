@@ -34,6 +34,8 @@ server.on('listening', () => {
     console.log(`server is listening for requests on port ${server.address().port}`);
 })
 
+io.set('origins', '*:*');
+
 io.on('connection', (client) => {
     console.log('connected to socket.io')
 
