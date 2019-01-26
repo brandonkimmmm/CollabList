@@ -146,5 +146,56 @@ module.exports = {
         .catch((err) => {
             callback(err);
         })
+    },
+
+    destroyItem(req, callback) {
+        return Member.findAll({
+            where: {
+                listId: req.params.listId,
+                userId: req.body.userId
+            }
+        })
+        .then((members) => {
+            if(members.length === 0) {
+                let err = {
+                    errors: [
+                        {
+                            'message': 'must be a member to delete an item'
+                        }
+                    ]
+                }
+                callback(err);
+            } else {
+                Item.findById(req.params.id)
+                .then((item) => {
+                    item.destroy()
+                    .then((res) => {
+                        Item.findAll({
+                            where: {
+                                listId: req.params.listId
+                            },
+                            order: [
+                                ['id', 'ASC']
+                            ]
+                        })
+                        .then((items) => {
+                            callback(null, items);
+                        })
+                        .catch((err) => {
+                            callback(err);
+                        })
+                    })
+                    .catch((err) => {
+                        callback(err);
+                    })
+                })
+                .catch((err) => {
+                    callback(err);
+                });
+            }
+        })
+        .catch((err) => {
+            callback(err);
+        })
     }
 }

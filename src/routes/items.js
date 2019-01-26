@@ -5,5 +5,6 @@ const itemController = require('../controllers/itemController');
 router.post('/api/lists/:listId/items/create', itemController.create);
 router.get('/api/lists/:listId/items', itemController.showItems);
 router.post('/api/lists/:listId/items/:id/update', itemController.update);
+router.post('/api/lists/:listId/items/:id/destroy', itemController.destroy);
 
 module.exports = router;

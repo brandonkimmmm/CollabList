@@ -254,4 +254,81 @@ describe('routes : items', () => {
             );
         });
     });
+
+    describe('POST /api/lists/:listId/item/:id/destroy', () => {
+        beforeEach((done) => {
+            this.item;
+            Item.create({
+                name: 'carrots',
+                amount: 1,
+                listId: this.list.id
+            })
+            .then((item) => {
+                this.item = item;
+                done();
+            })
+            .catch((err) => {
+                console.log(err);
+                done();
+            })
+        })
+
+        it('should delete an item with this.params.id', (done) => {
+            let options = {
+                url: `${base}${this.list.id}/items/${this.item.id}/destroy`,
+                form: {
+                    userId: this.isMember.id
+                }
+            }
+
+            request.post(options,
+                (err, res, body) => {
+                    Item.findOne({
+                        where: {
+                            id: this.item.id
+                        }
+                    })
+                    .then((item) => {
+                        expect(item).toBeNull();
+                        expect(body).toContain('items')
+                        done();
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                        done();
+                    });
+                }
+            );
+        });
+
+        it('should not delete an item if user is not member', (done) => {
+            let options = {
+                url: `${base}${this.list.id}/items/${this.item.id}/destroy`,
+                form: {
+                    userId: this.notMember.id
+                }
+            }
+
+            request.post(options,
+                (err, res, body) => {
+                    Item.findOne({
+                        where: {
+                            listId: this.list.id
+                        }
+                    })
+                    .then((item) => {
+                        expect(item).not.toBeNull();
+                        expect(item.name).toBe(this.item.name);
+                        expect(item.amount).toBe(1);
+                        expect(body).toContain('Error: must be a member to delete an item')
+                        done();
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                        done();
+                    });
+                }
+            );
+        });
+    });
 });

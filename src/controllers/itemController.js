@@ -51,12 +51,27 @@ module.exports = {
         }
         itemQueries.updateItem(updatedItem, (err, items) => {
             if(err || !items) {
-                console.log(updatedItem);
                 response.message = 'Error: ' + err.errors[0].message;
                 res.send(response);
             } else {
                 response.items = items;
                 response.message = 'Item successfully updated';
+                res.send(response);
+            }
+        })
+    },
+
+    destroy(req, res, next) {
+        let response = {
+            items: []
+        }
+        itemQueries.destroyItem(req, (err, items) => {
+            if(err || !items) {
+                response.message = 'Error: ' + err.errors[0].message;
+                res.send(response);
+            } else {
+                response.items = items;
+                response.message = 'Item was deleted from list';
                 res.send(response);
             }
         })
