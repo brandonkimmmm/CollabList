@@ -11,24 +11,24 @@ Grocery list is a real-time collborative web-application where multiple users ca
 ## Built With
 
 * **Client**
-	* [React](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-	* [Socket.io-client](https://maven.apache.org/) - Dependency Management
-	* [React-router](https://rometools.github.io/rome/) - Used to generate RSS Feeds
-	* [Material-ui](https://rometools.github.io/rome/) - Used to generate RSS Feeds
-	* [React-alert](https://rometools.github.io/rome/) - Used to generate RSS Feeds
-	* [React-scripts](https://rometools.github.io/rome/) - Used to generate RSS Feeds
-	* [Prop-types](https://rometools.github.io/rome/) - Used to generate RSS Feeds
+	* React
+	* Socket.io-client
+	* React-router
+	* Material-ui
+	* React-alert
+	* React-scripts
+	* Prop-types
 * **Server**
-	* [Node](https://rometools.github.io/rome/) - Used to generate RSS Feeds
-	* [Express](https://rometools.github.io/rome/) - Used to generate RSS Feeds
-	* [Express-session](https://rometools.github.io/rome/) - Used to generate RSS Feeds
-	* [Postgresql](https://rometools.github.io/rome/) - Used to generate RSS Feeds
-	* [Sequelize](https://rometools.github.io/rome/) - Used to generate RSS Feeds
-	* [Passport](https://rometools.github.io/rome/) - Used to generate RSS Feeds
-	* [Socket.io](https://rometools.github.io/rome/) - Used to generate RSS Feeds
-	* [Sequelize-cli](https://rometools.github.io/rome/) - Used to generate RSS Feeds
-	* [Dotenv](https://rometools.github.io/rome/) - Used to generate RSS Feeds
-	* [Bcryptjs](https://rometools.github.io/rome/) - Used to generate RSS Feeds
+	* Node
+	* Express
+	* Express-session
+	* Postgresql
+	* Sequelize
+	* Passport
+	* Socket.io
+	* Sequelize-cli
+	* Dotenv
+	* Bcryptjs
 
 ## Background
 
