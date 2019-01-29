@@ -55,8 +55,8 @@ io.on('connection', (client) => {
         io.emit('ITEM_ADDED', data);
     })
 
-    client.on('TOGGLE_ITEM', function(data) {
-        io.emit('ITEM_TOGGLED', data);
+    client.on('UPDATE_ITEM', function(data) {
+        io.emit('ITEM_UPDATED', data);
     })
 
     client.on('DELETE_ITEM', function(data) {
