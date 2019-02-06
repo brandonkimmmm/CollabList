@@ -1,7 +1,7 @@
 {
-  "name": "grocery-list",
+  "name": "collablist",
   "version": "1.0.0",
-  "description": "An app where users can share a single grocery list",
+  "description": "An app where users can collaborate on shared list",
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",
@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/brandonkimmmm/grocery-list.git"
+    "url": "git+ssh://git@github.com/brandonkimmmm/CollabList.git"
   },
   "author": "Brandon Kim",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/brandonkimmmm/grocery-list/issues"
+    "url": "https://github.com/brandonkimmmm/CollabList/issues"
   },
-  "homepage": "https://github.com/brandonkimmmm/grocery-list#readme",
+  "homepage": "https://github.com/brandonkimmmm/CollabList#readme",
   "devDependencies": {
     "jasmine": "^3.3.1",
     "request": "^2.88.0"
