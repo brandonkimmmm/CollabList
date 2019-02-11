@@ -163,4 +163,49 @@ describe('routes : lists', () => {
             )
         })
     })
+
+    describe('POST /api/lists/:listId/destroy', () => {
+        beforeEach((done) => {
+            this.list;
+            List.create({
+                name: 'listName',
+                userId: this.user.id
+            })
+            .then((list) => {
+                this.list = list;
+                done();
+            })
+            .catch((err) => {
+                console.log(err);
+                done();
+            });
+        });
+
+        it('should delete the list', (done) => {
+            let options = {
+                url: `${base}${this.list.id}/destroy`,
+                form: {
+                    userId: this.user.id
+                }
+            }
+
+            request.post(options,
+                (err, res, body) => {
+                    List.findOne({
+                        where: {
+                            id: this.list.id
+                        }
+                    })
+                    .then((list) => {
+                        expect(list).toBeNull();
+                        done();
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                        done();
+                    })
+                }
+            )
+        })
+    })
 });

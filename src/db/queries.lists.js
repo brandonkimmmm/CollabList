@@ -114,5 +114,53 @@ module.exports = {
         .catch((err) => {
             callback(err);
         })
+    },
+
+    destroyList(req, callback) {
+        return List.findOne({
+            where: {
+                id: req.params.listId,
+            }
+        })
+        .then((list) => {
+            if(!list) {
+                let err = {
+                    errors: [
+                        {
+                            'message': 'cannot find the list'
+                        }
+                    ]
+                }
+                callback(err);
+            } else {
+                if(list.userId != req.body.userId) {
+                    let err = {
+                        errors: [
+                            {
+                                'message': 'must be the owner to delete list'
+                            }
+                        ]
+                    }
+                    callback(err);
+                } else {
+                    List.findById(req.params.listId)
+                    .then((list) => {
+                        list.destroy()
+                        .then((res) => {
+                            callback(null);
+                        })
+                        .catch((err) => {
+                            callback(err);
+                        })
+                    })
+                    .catch((err) => {
+                        callback(err);
+                    });
+                }
+            }
+        })
+        .catch((err) => {
+            callback(err);
+        })
     }
 }

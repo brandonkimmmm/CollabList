@@ -27,7 +27,10 @@ module.exports = {
         List.findAll({
             where: {
                 userId: userId
-            }
+            },
+            order: [
+                ['id', 'ASC']
+            ]
         })
         .then((userLists) => {
             userLists = userLists;
@@ -35,7 +38,10 @@ module.exports = {
                 where: {
                     userId: userId
                 },
-                include: [List]
+                include: [List],
+                order: [
+                    ['id', 'ASC']
+                ]
             })
             .then((userMemberships) => {
                 callback(null, userLists, userMemberships);

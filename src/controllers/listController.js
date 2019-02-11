@@ -68,5 +68,21 @@ module.exports = {
                 }
             })
         }
+    },
+
+    destroy(req, res, next) {
+        let response = {
+            response: undefined
+        }
+        listQueries.destroyList(req, (err) => {
+            if(err) {
+                response.message = 'Error: ' + err.errors[0].message;
+                res.send(response);
+            } else {
+                response.message = 'List was deleted';
+                response.listId = req.params.listId
+                res.send(response);
+            }
+        })
     }
 }
