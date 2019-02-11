@@ -116,4 +116,51 @@ describe('routes : lists', () => {
             });
         });
     });
+
+    describe('POST /api/lists/:listId/update', () => {
+        beforeEach((done) => {
+            this.list;
+            List.create({
+                name: 'listName',
+                userId: this.user.id
+            })
+            .then((list) => {
+                this.list = list;
+                done();
+            })
+            .catch((err) => {
+                console.log(err);
+                done();
+            });
+        });
+
+        it('should update list with new name', (done) => {
+            let options = {
+                url: `${base}${this.list.id}/update`,
+                form: {
+                    name: 'updated name',
+                    userId: this.user.id
+                }
+            }
+
+            request.post(options,
+                (err, res, body) => {
+                    List.findOne({
+                        where: {
+                            name: 'updated name'
+                        }
+                    })
+                    .then((list) => {
+                        expect(list).not.toBeNull();
+                        expect(list.name).toBe('updated name');
+                        done();
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                        done();
+                    })
+                }
+            )
+        })
+    })
 });

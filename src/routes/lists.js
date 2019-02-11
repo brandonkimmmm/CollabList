@@ -4,5 +4,6 @@ const listController = require('../controllers/listController');
 
 router.post('/api/lists/create', listController.create);
 router.get('/api/lists/:listId', listController.show);
+router.post('/api/lists/:listId/update', listController.update);
 
 module.exports = router;

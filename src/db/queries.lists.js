@@ -49,5 +49,70 @@ module.exports = {
         .catch((err) => {
             callback(err);
         });
+    },
+
+    updateList(updatedList, callback) {
+        return List.findById(updatedList.id)
+        .then((list) => {
+            if(!list) {
+                let err = {
+                    errors: [
+                        {
+                            'message': 'cannot find list with that id'
+                        }
+                    ]
+                }
+                callback(err);
+            } else {
+                if(list.userId != updatedList.userId) {
+                    let err = {
+                        errors: [
+                            {
+                                'message': 'must be owner of list to update'
+                            }
+                        ]
+                    }
+                    callback(err);
+                } else {
+                    let updateList = {
+                        name: updatedList.name,
+                    }
+                    list.update(updateList, {
+                        fileds: Object.keys(updateList)
+                    })
+                    .then(() => {
+                        List.findOne({
+                            where: {
+                                id: list.id
+                            },
+                            include: [User]
+                        })
+                        .then((list) => {
+                            Member.findAll({
+                                where: {
+                                    listId: list.id
+                                },
+                                include: [User]
+                            })
+                            .then((members) => {
+                                callback(null, list, members);
+                            })
+                            .catch((err) => {
+                                callback(err);
+                            })
+                        })
+                        .catch((err) => {
+                            callback(err);
+                        })
+                    })
+                    .catch((err) => {
+                        callback(err);
+                    })
+                }
+            }
+        })
+        .catch((err) => {
+            callback(err);
+        })
     }
 }
