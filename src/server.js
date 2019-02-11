@@ -67,6 +67,10 @@ io.on('connection', (client) => {
         io.emit('LIST_UPDATED', data);
     })
 
+    client.on('DELETE_LIST', function(data) {
+        io.emit('LIST_DELETED', data);
+    })
+
     client.on('disconnect', () => {
         console.log('user disconnect');
     })
